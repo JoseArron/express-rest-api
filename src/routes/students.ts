@@ -16,6 +16,19 @@ router.get("/", async (req, res) => {
     .finally(() => res.status(200));
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  prisma.students
+    .findFirst({ where: { id } })
+    .then((student) => {
+      res.status(200).json(student);
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Failed to fetch student" });
+    })
+    .finally(() => res.status(200));
+});
+
 router.post("/", async (req, res) => {
   const data: StudentInput = req.body;
   prisma.students

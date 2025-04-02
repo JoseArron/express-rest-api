@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import studentsRouter from "./routes/students";
 
-const app = express();
+export const app = express();
 
 const PORT = process.env.PORT || 3000;
 
