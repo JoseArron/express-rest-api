@@ -4,8 +4,8 @@ import { StudentInput } from "../types/student";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  prisma.students
+router.get("/", async (_req, res) => {
+  prisma.student
     .findMany()
     .then((students) => {
       res.status(200).json(students);
@@ -18,12 +18,13 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  prisma.students
-    .findFirst({ where: { id } })
+  prisma.student
+    .findUnique({ where: { id } })
     .then((student) => {
       res.status(200).json(student);
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       res.status(500).json({ message: "Failed to fetch student" });
     })
     .finally(() => res.status(200));
@@ -31,7 +32,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const data: StudentInput = req.body;
-  prisma.students
+  prisma.student
     .create({
       data: {
         ...data,
@@ -50,7 +51,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const newData: StudentInput = req.body;
-  prisma.students
+  prisma.student
     .update({
       where: { id },
       data: {
@@ -68,7 +69,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  prisma.students
+  prisma.student
     .delete({
       where: { id },
     })

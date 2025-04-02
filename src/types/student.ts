@@ -1,8 +1,3 @@
-export interface StudentInput {
-  firstName: string;
-  lastName: string;
-  groupName: string;
-  role: string;
-  expectedSalary: number;
-  expectedDateOfDefense: Date;
-}
+import { Student } from "@prisma/client";
+
+export type StudentInput = Omit<Student, "id">;

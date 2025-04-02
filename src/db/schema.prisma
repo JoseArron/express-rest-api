@@ -8,12 +8,14 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Students {
+model Student {
   id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   firstName             String   @map("first_name")
   lastName              String   @map("last_name")
   groupName             String   @map("group_name")
   role                  String   @map("role")
-  expectedSalary        Decimal  @map("expected_salary") @db.Decimal
+  expectedSalary        Int  @map("expected_salary") @db.Integer
   expectedDateOfDefense DateTime @map("expected_date_of_defense") @db.Date
+
+  @@map("Students")
 }
