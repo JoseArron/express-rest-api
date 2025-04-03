@@ -57,14 +57,17 @@ const runGetTests = () => {
                 expect(res.body.firstName).toBe(mockNewStudent.firstName);
             });
 
-            it("should return a status code of 200 and null if given a non-existent but valid ID", async () => {
+            it("should fail with a status code of 404 if given a non-existent but valid ID", async () => {
                 const nonExistentValidId = v4();
 
                 const res = await request(app).get(
                     `${route}/${nonExistentValidId}`
                 );
-                expect(res.status).toBe(200);
-                expect(res.body).toBeNull();
+                expect(res.status).toBe(404);
+                expect(res.body).toHaveProperty(
+                    "message",
+                    `Student with ${nonExistentValidId} not found`
+                );
             });
 
             it("should fail with a status code of 500 if given an invalid ID", async () => {

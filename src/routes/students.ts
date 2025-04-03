@@ -20,6 +20,12 @@ router.get("/:id", async (req, res) => {
     prisma.student
         .findUnique({ where: { id } })
         .then((student) => {
+            // if the student is not found
+            if (!student) {
+                return res.status(404).json({
+                    message: `Student with ${id} not found`,
+                });
+            }
             res.status(200).json(student);
         })
         .catch(() => {
