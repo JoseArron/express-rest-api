@@ -2,15 +2,14 @@ import express from "express";
 import cors from "cors";
 import studentsRouter from "./routes/students";
 
-export const app = express();
+const createServer = () => {
+    const app = express();
 
-const PORT = process.env.PORT || 3000;
+    app.use(cors());
+    app.use(express.json());
 
-app.use(cors());
-app.use(express.json());
+    app.use("/api/students", studentsRouter);
+    return app;
+};
 
-app.use("/api/students", studentsRouter);
-
-app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
-});
+export default createServer;
