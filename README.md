@@ -28,6 +28,12 @@ Amada & Suoberon
     npm install
     ```
 
+4.  **Setup Prisma**
+
+    ```
+    npx prisma generate
+    ```
+
 ## Run Tests
 
 In the root directory, run
