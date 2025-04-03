@@ -8,7 +8,7 @@ import { v4 } from "uuid";
 const app = createServer();
 const route = "/api/students";
 
-const runGetTests = async () => {
+const runGetTests = () => {
     describe(`${route}`, () => {
         describe("/ GET endpoint", () => {
             it("should return an empty list when there are no students", async () => {
@@ -25,7 +25,7 @@ const runGetTests = async () => {
                 const res = await request(app).get(route);
 
                 expect(res.status).toBe(200);
-                expect(res.body.length).toBe(3);
+                expect(res.body.length).toBe(mockStudents.length);
                 expect(res.body[0]).toHaveProperty(
                     "firstName",
                     mockStudents[0].firstName
@@ -47,7 +47,7 @@ const runGetTests = async () => {
                 });
             });
 
-            it("should return a specific student by the given ID", async () => {
+            it("should return the specific student with the given ID", async () => {
                 const res = await request(app).get(
                     `${route}/${createdStudent.id}`
                 );
@@ -57,7 +57,7 @@ const runGetTests = async () => {
                 expect(res.body.firstName).toBe(mockNewStudent.firstName);
             });
 
-            it("should return 200 and null if given a non-existent but valid ID", async () => {
+            it("should return a status code of 200 and null if given a non-existent but valid ID", async () => {
                 const nonExistentValidId = v4();
 
                 const res = await request(app).get(
@@ -67,7 +67,7 @@ const runGetTests = async () => {
                 expect(res.body).toBeNull();
             });
 
-            it("should return 500 if given an invalid ID", async () => {
+            it("should fail with a status code of 500 if given an invalid ID", async () => {
                 const invalidId = "this-is-not-a-valid-id";
 
                 const res = await request(app).get(`${route}/${invalidId}`);

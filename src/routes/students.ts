@@ -47,13 +47,18 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const newData: StudentInput = req.body;
+    const newData: Partial<StudentInput> = req.body;
     prisma.student
         .update({
             where: { id },
             data: {
                 ...newData,
-                expectedDateOfDefense: new Date(newData.expectedDateOfDefense),
+                // if expected date of defense is in newData, convert received date string to Date object
+                ...(newData.expectedDateOfDefense && {
+                    expectedDateOfDefense: new Date(
+                        newData.expectedDateOfDefense
+                    ),
+                }),
             },
         })
         .then((student) => {
