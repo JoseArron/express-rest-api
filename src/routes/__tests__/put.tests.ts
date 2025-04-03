@@ -11,7 +11,7 @@ const route = "/api/students";
 
 const runPutTests = () => {
     describe(`${route}`, () => {
-        describe(`${route}/:id PUT endpoint`, () => {
+        describe(`/:id PUT endpoint`, () => {
             let createdStudent: Student;
 
             beforeEach(async () => {
