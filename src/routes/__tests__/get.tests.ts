@@ -35,6 +35,25 @@ const runGetTests = () => {
                     mockStudents[1].firstName
                 );
             });
+
+            it("should return a 500 error when the database connection fails", async () => {
+                // mock the findMany method on prisma.student table
+                const findManySpy = jest.spyOn(prisma.student, "findMany");
+                // raise a database connection error when the findMany method is called once
+                findManySpy.mockRejectedValueOnce(
+                    new Error("Database connection error")
+                );
+
+                const res = await request(app).get(route);
+
+                expect(res.status).toBe(500);
+                expect(res.body).toEqual({
+                    message: "Failed to fetch students",
+                });
+
+                // restore the original function
+                findManySpy.mockRestore();
+            });
         });
 
         describe("/:id GET endpoint", () => {
